@@ -77,7 +77,10 @@
                     new Column({ header: new Label({ text: 'Ready' }), hAlign: 'End' }),
                     new Column({ header: new Label({ text: 'Not Ready' }), hAlign: 'End' }),
                     new Column({ header: new Label({ text: 'Last Inspection' }) }),
-                    new Column({ header: new Label({ text: 'Last Odometer' }), hAlign: 'End' })
+                    new Column({ header: new Label({ text: 'Last Odometer' }), hAlign: 'End' }),
+                    new Column({ header: new Label({ text: 'Last Status' }) }),
+                    new Column({ header: new Label({ text: 'Last Operator' }) }),
+                    new Column({ header: new Label({ text: 'Last Remarks' }) })
                 ],
                 items: { path: '/summary', template: new ColumnListItem({ cells: [
                     new Text({ text: '{FORKLIFT_ID}' }),
@@ -85,7 +88,10 @@
                     new ObjectStatus({ text: '{READY_COUNT}', state: 'Success' }),
                     new ObjectStatus({ text: '{NOT_READY_COUNT}', state: 'Error' }),
                     new Text({ text: '{LAST_INSPECTION}' }),
-                    new Text({ text: '{LAST_ODOMETER}' })
+                    new Text({ text: '{LAST_ODOMETER}' }),
+                    new ObjectStatus({ text: '{LAST_STATUS}', state: { path: 'LAST_STATUS', formatter: function(v){return v==='READY'?'Success':'Error'} } }),
+                    new Text({ text: '{LAST_OPERATOR}' }),
+                    new Text({ text: '{LAST_REMARKS}' })
                 ]})}
             });
 

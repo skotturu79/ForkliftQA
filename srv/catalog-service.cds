@@ -27,5 +27,8 @@ service InspectionService @(path: '/api') {
         NOT_READY_COUNT      : Integer;
         LAST_INSPECTION      : Date;
         LAST_ODOMETER        : Integer;
+        LAST_STATUS          : String(15);
+        LAST_OPERATOR        : String(100);
+        LAST_REMARKS         : String(500);
     }
 }
