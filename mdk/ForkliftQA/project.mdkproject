@@ -1,0 +1,6 @@
+{
+  "Application": "/ForkQA/mdk/ForkliftQA/Application.app",
+  "Version": "1.0.0",
+  "Name": "ForkliftQA",
+  "DefaultLanguage": "en"
+}

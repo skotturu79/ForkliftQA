@@ -1,0 +1,25 @@
+{
+  "_Type": "Action.Type.ODataService.CreateEntity",
+  "Target": {
+    "EntitySet": "Inspections",
+    "Service": "/ForkQA/mdk/ForkliftQA/Services/InspectionService.service"
+  },
+  "Properties": {
+    "FORKLIFT_ID": "#Control:FORKLIFT_ID/#Value",
+    "OPERATOR_NAME": "#Control:OPERATOR_NAME/#Value",
+    "OPERATOR_ID": "#Control:OPERATOR_ID/#Value",
+    "SHIFT": "#Control:SHIFT/#SelectedValue",
+    "ODOMETER": "#Control:ODOMETER/#Value",
+    "TIRE_PRESSURE": "#Control:TIRE_PRESSURE/#SelectedValue",
+    "PHYSICAL_CONDITION": "#Control:PHYSICAL_CONDITION/#SelectedValue",
+    "BRAKES": "#Control:BRAKES/#SelectedValue",
+    "HYDRAULICS": "#Control:HYDRAULICS/#SelectedValue",
+    "HORN_LIGHTS": "#Control:HORN_LIGHTS/#SelectedValue",
+    "REMARKS": "#Control:REMARKS/#Value"
+  },
+  "CreateLinks": [],
+  "OnSuccess": "/ForkQA/mdk/ForkliftQA/Actions/Inspections/Inspections_CreateSuccess.action",
+  "OnFailure": "/ForkQA/mdk/ForkliftQA/Actions/Inspections/Inspections_CreateFailed.action",
+  "ShowActivityIndicator": true,
+  "ActionResult": "_CreateInspectionResult"
+}

@@ -1,0 +1,130 @@
+{
+  "_Type": "Page",
+  "_Name": "Inspections_Create",
+  "Caption": "$(L,newInspection)",
+  "Controls": [
+    {
+      "_Type": "Control.Type.FormCellContainer",
+      "_Name": "FormCellContainer",
+      "Sections": [
+        {
+          "_Type": "Section.Type.FormCell",
+          "_Name": "ForkliftSection",
+          "Caption": "Forklift Info",
+          "Controls": [
+            {
+              "_Type": "Control.Type.FormCell.SimpleProperty",
+              "_Name": "FORKLIFT_ID",
+              "Caption": "$(L,forkliftId)",
+              "PlaceHolder": "e.g. FL-001",
+              "IsEditable": true
+            },
+            {
+              "_Type": "Control.Type.FormCell.SimpleProperty",
+              "_Name": "OPERATOR_NAME",
+              "Caption": "$(L,operatorName)",
+              "PlaceHolder": "Full name",
+              "IsEditable": true
+            },
+            {
+              "_Type": "Control.Type.FormCell.SimpleProperty",
+              "_Name": "OPERATOR_ID",
+              "Caption": "$(L,operatorId)",
+              "PlaceHolder": "e.g. OP-042",
+              "IsEditable": true
+            },
+            {
+              "_Type": "Control.Type.FormCell.ListPicker",
+              "_Name": "SHIFT",
+              "Caption": "$(L,shift)",
+              "AllowMultipleSelection": false,
+              "IsEditable": true,
+              "PickerItems": ["DAY", "NIGHT"]
+            },
+            {
+              "_Type": "Control.Type.FormCell.SimpleProperty",
+              "_Name": "ODOMETER",
+              "Caption": "$(L,odometer)",
+              "PlaceHolder": "0",
+              "KeyboardType": "Number",
+              "IsEditable": true
+            }
+          ]
+        },
+        {
+          "_Type": "Section.Type.FormCell",
+          "_Name": "ChecksSection",
+          "Caption": "Inspection Checks",
+          "Controls": [
+            {
+              "_Type": "Control.Type.FormCell.ListPicker",
+              "_Name": "TIRE_PRESSURE",
+              "Caption": "1. $(L,tirePressure)",
+              "AllowMultipleSelection": false,
+              "IsEditable": true,
+              "PickerItems": ["PASS", "FAIL"]
+            },
+            {
+              "_Type": "Control.Type.FormCell.ListPicker",
+              "_Name": "PHYSICAL_CONDITION",
+              "Caption": "2. $(L,physicalCondition)",
+              "AllowMultipleSelection": false,
+              "IsEditable": true,
+              "PickerItems": ["PASS", "FAIL"]
+            },
+            {
+              "_Type": "Control.Type.FormCell.ListPicker",
+              "_Name": "BRAKES",
+              "Caption": "3. $(L,brakes)",
+              "AllowMultipleSelection": false,
+              "IsEditable": true,
+              "PickerItems": ["PASS", "FAIL"]
+            },
+            {
+              "_Type": "Control.Type.FormCell.ListPicker",
+              "_Name": "HYDRAULICS",
+              "Caption": "4. $(L,hydraulics)",
+              "AllowMultipleSelection": false,
+              "IsEditable": true,
+              "PickerItems": ["PASS", "FAIL"]
+            },
+            {
+              "_Type": "Control.Type.FormCell.ListPicker",
+              "_Name": "HORN_LIGHTS",
+              "Caption": "5. $(L,hornLights)",
+              "AllowMultipleSelection": false,
+              "IsEditable": true,
+              "PickerItems": ["PASS", "FAIL"]
+            }
+          ]
+        },
+        {
+          "_Type": "Section.Type.FormCell",
+          "_Name": "RemarksSection",
+          "Caption": "Notes",
+          "Controls": [
+            {
+              "_Type": "Control.Type.FormCell.Note",
+              "_Name": "REMARKS",
+              "Caption": "$(L,remarks)",
+              "PlaceHolder": "Any additional notes...",
+              "IsEditable": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ActionBar": {
+    "Items": [
+      {
+        "_Type": "Control.Type.ActionBarItem",
+        "_Name": "SubmitInspection",
+        "Caption": "$(L,submitInspection)",
+        "SystemItem": "Save",
+        "Position": "Right",
+        "OnPress": "/ForkQA/mdk/ForkliftQA/Actions/Inspections/Inspections_CreateEntity.action"
+      }
+    ]
+  }
+}

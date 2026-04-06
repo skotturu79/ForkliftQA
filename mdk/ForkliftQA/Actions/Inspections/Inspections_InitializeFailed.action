@@ -1,0 +1,6 @@
+{
+  "_Type": "Action.Type.Message",
+  "Message": "Failed to initialize the OData service. Please check your connection.",
+  "Title": "Connection Error",
+  "OKCaption": "OK"
+}

@@ -1,0 +1,56 @@
+{
+  "_Type": "Page",
+  "_Name": "Inspections_List",
+  "Caption": "$(L,appTitle)",
+  "Controls": [
+    {
+      "_Type": "Control.Type.SectionedTable",
+      "_Name": "SectionedTable",
+      "Sections": [
+        {
+          "_Type": "Section.Type.ObjectTable",
+          "_Name": "InspectionsSection",
+          "Header": {
+            "Caption": "$(L,inspectionsList)"
+          },
+          "EmptySection": {
+            "Caption": "No inspections yet"
+          },
+          "ObjectCell": {
+            "Title": "{FORKLIFT_ID}",
+            "Subhead": "{OPERATOR_NAME}",
+            "Footnote": "{INSPECTION_DATE}",
+            "Description": "{SHIFT}",
+            "StatusText": "{STATUS}",
+            "SubstatusText": "Odo: {ODOMETER}",
+            "OnPress": "/ForkQA/mdk/ForkliftQA/Actions/Inspections/Inspections_NavToDetail.action",
+            "AccessoryType": "DisclosureIndicator"
+          },
+          "Target": {
+            "EntitySet": "Inspections",
+            "Service": "/ForkQA/mdk/ForkliftQA/Services/InspectionService.service",
+            "QueryOptions": "$orderby=CREATED_AT desc"
+          }
+        }
+      ]
+    }
+  ],
+  "ToolBar": {
+    "Items": [
+      {
+        "_Type": "Control.Type.ToolbarItem",
+        "_Name": "CreateInspection",
+        "Caption": "$(L,newInspection)",
+        "SystemItem": "Add",
+        "OnPress": "/ForkQA/mdk/ForkliftQA/Actions/Inspections/Inspections_NavToCreate.action"
+      },
+      {
+        "_Type": "Control.Type.ToolbarItem",
+        "_Name": "ViewSummary",
+        "Caption": "$(L,forkliftSummary)",
+        "SystemItem": "Search",
+        "OnPress": "/ForkQA/mdk/ForkliftQA/Actions/Summary/Summary_NavToList.action"
+      }
+    ]
+  }
+}

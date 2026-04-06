@@ -1,0 +1,7 @@
+{
+  "_Type": "Action.Type.ODataService.Initialize",
+  "Service": "/ForkQA/mdk/ForkliftQA/Services/InspectionService.service",
+  "ShowActivityIndicator": true,
+  "OnSuccess": "",
+  "OnFailure": "/ForkQA/mdk/ForkliftQA/Actions/Inspections/Inspections_InitializeFailed.action"
+}

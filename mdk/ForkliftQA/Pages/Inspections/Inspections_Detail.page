@@ -1,0 +1,55 @@
+{
+  "_Type": "Page",
+  "_Name": "Inspections_Detail",
+  "Caption": "$(L,inspectionDetail)",
+  "Controls": [
+    {
+      "_Type": "Control.Type.SectionedTable",
+      "_Name": "DetailSections",
+      "Sections": [
+        {
+          "_Type": "Section.Type.KeyValue",
+          "_Name": "StatusSection",
+          "Header": { "Caption": "Status" },
+          "KeyAndValues": [
+            { "KeyName": "$(L,status)", "Value": "{STATUS}" },
+            { "KeyName": "$(L,forkliftId)", "Value": "{FORKLIFT_ID}" },
+            { "KeyName": "$(L,inspectionDate)", "Value": "{INSPECTION_DATE}" },
+            { "KeyName": "$(L,shift)", "Value": "{SHIFT}" },
+            { "KeyName": "$(L,odometer)", "Value": "{ODOMETER}" }
+          ]
+        },
+        {
+          "_Type": "Section.Type.KeyValue",
+          "_Name": "OperatorSection",
+          "Header": { "Caption": "Operator" },
+          "KeyAndValues": [
+            { "KeyName": "$(L,operatorName)", "Value": "{OPERATOR_NAME}" },
+            { "KeyName": "$(L,operatorId)", "Value": "{OPERATOR_ID}" },
+            { "KeyName": "$(L,createdAt)", "Value": "{CREATED_AT}" }
+          ]
+        },
+        {
+          "_Type": "Section.Type.KeyValue",
+          "_Name": "ChecksSection",
+          "Header": { "Caption": "Inspection Checks" },
+          "KeyAndValues": [
+            { "KeyName": "$(L,tirePressure)", "Value": "{TIRE_PRESSURE}" },
+            { "KeyName": "$(L,physicalCondition)", "Value": "{PHYSICAL_CONDITION}" },
+            { "KeyName": "$(L,brakes)", "Value": "{BRAKES}" },
+            { "KeyName": "$(L,hydraulics)", "Value": "{HYDRAULICS}" },
+            { "KeyName": "$(L,hornLights)", "Value": "{HORN_LIGHTS}" }
+          ]
+        },
+        {
+          "_Type": "Section.Type.KeyValue",
+          "_Name": "RemarksSection",
+          "Header": { "Caption": "Remarks" },
+          "KeyAndValues": [
+            { "KeyName": "$(L,remarks)", "Value": "{REMARKS}" }
+          ]
+        }
+      ]
+    }
+  ]
+}

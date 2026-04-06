@@ -1,0 +1,36 @@
+{
+  "_Type": "Page",
+  "_Name": "Summary_List",
+  "Caption": "$(L,forkliftSummary)",
+  "Controls": [
+    {
+      "_Type": "Control.Type.SectionedTable",
+      "_Name": "SummarySectionedTable",
+      "Sections": [
+        {
+          "_Type": "Section.Type.ObjectTable",
+          "_Name": "SummarySection",
+          "Header": {
+            "Caption": "$(L,forkliftSummary)"
+          },
+          "EmptySection": {
+            "Caption": "No forklift data yet"
+          },
+          "ObjectCell": {
+            "Title": "{FORKLIFT_ID}",
+            "Subhead": "Last: {LAST_OPERATOR}",
+            "Footnote": "{LAST_INSPECTION}",
+            "Description": "Inspections: {TOTAL_INSPECTIONS}",
+            "StatusText": "{LAST_STATUS}",
+            "SubstatusText": "Ready: {READY_COUNT} / Not Ready: {NOT_READY_COUNT}",
+            "DetailImage": "sap-icon://shipping-status"
+          },
+          "Target": {
+            "EntitySet": "InspectionSummary",
+            "Service": "/ForkQA/mdk/ForkliftQA/Services/InspectionService.service"
+          }
+        }
+      ]
+    }
+  ]
+}

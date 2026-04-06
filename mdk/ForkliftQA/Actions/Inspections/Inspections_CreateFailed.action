@@ -1,0 +1,6 @@
+{
+  "_Type": "Action.Type.Message",
+  "Message": "Failed to submit inspection. Please try again.",
+  "Title": "Error",
+  "OKCaption": "OK"
+}

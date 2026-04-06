@@ -1,0 +1,6 @@
+{
+  "SourceType": "Cloud",
+  "ServiceUrl": "/api/",
+  "PathSuffix": "",
+  "ServiceName": "InspectionService"
+}
