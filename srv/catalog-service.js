@@ -20,6 +20,8 @@ module.exports = cds.service.impl(async function () {
         // Determine status: NOT_READY if any check is FAIL
         const checks = [d.TIRE_PRESSURE, d.PHYSICAL_CONDITION, d.BRAKES, d.HYDRAULICS, d.HORN_LIGHTS];
         const status = checks.some(c => c === 'FAIL') ? 'NOT_READY' : 'READY';
+        const now = new Date().toISOString();
+        const today = now.substring(0, 10);
 
         await tx.run(
             `INSERT INTO "INSPECTIONS" (
@@ -27,11 +29,11 @@ module.exports = cds.service.impl(async function () {
                 "INSPECTION_DATE","SHIFT","TIRE_PRESSURE","ODOMETER",
                 "PHYSICAL_CONDITION","BRAKES","HYDRAULICS","HORN_LIGHTS",
                 "REMARKS","STATUS","CREATED_BY","CREATED_AT"
-            ) VALUES (?,?,?,?,CURRENT_DATE,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)`,
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
             [id, d.FORKLIFT_ID, d.OPERATOR_NAME, d.OPERATOR_ID,
-             d.SHIFT || 'DAY', d.TIRE_PRESSURE, d.ODOMETER || 0,
+             today, d.SHIFT || 'DAY', d.TIRE_PRESSURE, d.ODOMETER || 0,
              d.PHYSICAL_CONDITION, d.BRAKES, d.HYDRAULICS, d.HORN_LIGHTS,
-             d.REMARKS || '', status, d.OPERATOR_NAME]
+             d.REMARKS || '', status, d.OPERATOR_NAME, now]
         );
 
         return { INSPECTION_ID: id, STATUS: status, ...d };
