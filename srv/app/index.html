@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ForkQA - Forklift Inspection</title>
+    <script src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+        id="sap-ui-bootstrap" data-sap-ui-theme="sap_horizon"
+        data-sap-ui-libs="sap.m, sap.ui.layout, sap.ui.unified"
+        data-sap-ui-compatVersion="edge" data-sap-ui-async="true">
+    </script>
+    <script>
+        const API = '/api';
+
+        sap.ui.require([
+            'sap/m/App', 'sap/m/Page', 'sap/m/IconTabBar', 'sap/m/IconTabFilter',
+            'sap/m/Table', 'sap/m/Column', 'sap/m/ColumnListItem', 'sap/m/Text',
+            'sap/m/Label', 'sap/m/Button', 'sap/m/Dialog', 'sap/m/Input',
+            'sap/m/Select', 'sap/ui/core/Item', 'sap/m/TextArea',
+            'sap/m/MessageToast', 'sap/m/MessageBox', 'sap/m/MessageStrip',
+            'sap/m/Toolbar', 'sap/m/Title', 'sap/m/ToolbarSpacer',
+            'sap/m/ObjectStatus', 'sap/ui/layout/form/SimpleForm',
+            'sap/ui/model/json/JSONModel'
+        ], function (App, Page, IconTabBar, IconTabFilter, Table, Column, ColumnListItem,
+            Text, Label, Button, Dialog, Input, Select, Item, TextArea,
+            MessageToast, MessageBox, MessageStrip,
+            Toolbar, Title, ToolbarSpacer, ObjectStatus, SimpleForm, JSONModel) {
+
+            var oModel = new JSONModel({ inspections: [], summary: [] });
+
+            function loadData() {
+                fetch(API + '/Inspections').then(function(r){return r.json()}).then(function(d){oModel.setProperty('/inspections', d.value || [])});
+                fetch(API + '/InspectionSummary').then(function(r){return r.json()}).then(function(d){oModel.setProperty('/summary', d.value || [])});
+            }
+
+            // ── Inspections Table ──
+            var oInspTable = new Table({
+                headerToolbar: new Toolbar({ content: [
+                    new Title({ text: 'Inspection Log' }), new ToolbarSpacer(),
+                    new Button({ text: 'Refresh', icon: 'sap-icon://refresh', press: loadData }),
+                    new Button({ text: 'New Inspection', icon: 'sap-icon://add', type: 'Emphasized', press: openInspectionForm })
+                ]}),
+                columns: [
+                    new Column({ header: new Label({ text: 'Forklift' }), width: '8em' }),
+                    new Column({ header: new Label({ text: 'Operator' }) }),
+                    new Column({ header: new Label({ text: 'Date' }), width: '8em' }),
+                    new Column({ header: new Label({ text: 'Shift' }), width: '5em' }),
+                    new Column({ header: new Label({ text: 'Tires' }), width: '5em' }),
+                    new Column({ header: new Label({ text: 'Brakes' }), width: '5em' }),
+                    new Column({ header: new Label({ text: 'Hydraulics' }), width: '6em' }),
+                    new Column({ header: new Label({ text: 'Horn/Lights' }), width: '6em' }),
+                    new Column({ header: new Label({ text: 'Body' }), width: '5em' }),
+                    new Column({ header: new Label({ text: 'Odometer' }), hAlign: 'End', width: '6em' }),
+                    new Column({ header: new Label({ text: 'Status' }), width: '7em' })
+                ],
+                items: { path: '/inspections', template: new ColumnListItem({ cells: [
+                    new Text({ text: '{FORKLIFT_ID}' }),
+                    new Text({ text: '{OPERATOR_NAME}' }),
+                    new Text({ text: '{INSPECTION_DATE}' }),
+                    new Text({ text: '{SHIFT}' }),
+                    new ObjectStatus({ text: '{TIRE_PRESSURE}', state: { path: 'TIRE_PRESSURE', formatter: function(v){return v==='PASS'?'Success':'Error'} } }),
+                    new ObjectStatus({ text: '{BRAKES}', state: { path: 'BRAKES', formatter: function(v){return v==='PASS'?'Success':'Error'} } }),
+                    new ObjectStatus({ text: '{HYDRAULICS}', state: { path: 'HYDRAULICS', formatter: function(v){return v==='PASS'?'Success':'Error'} } }),
+                    new ObjectStatus({ text: '{HORN_LIGHTS}', state: { path: 'HORN_LIGHTS', formatter: function(v){return v==='PASS'?'Success':'Error'} } }),
+                    new ObjectStatus({ text: '{PHYSICAL_CONDITION}', state: { path: 'PHYSICAL_CONDITION', formatter: function(v){return v==='PASS'?'Success':'Error'} } }),
+                    new Text({ text: '{ODOMETER}' }),
+                    new ObjectStatus({ text: '{STATUS}', state: { path: 'STATUS', formatter: function(v){return v==='READY'?'Success':'Error'} } })
+                ]})}
+            });
+
+            // ── Summary Table ──
+            var oSummaryTable = new Table({
+                headerToolbar: new Toolbar({ content: [new Title({ text: 'Forklift Summary' }), new ToolbarSpacer(), new Button({ text: 'Refresh', icon: 'sap-icon://refresh', press: loadData })] }),
+                columns: [
+                    new Column({ header: new Label({ text: 'Forklift ID' }) }),
+                    new Column({ header: new Label({ text: 'Total Inspections' }), hAlign: 'End' }),
+                    new Column({ header: new Label({ text: 'Ready' }), hAlign: 'End' }),
+                    new Column({ header: new Label({ text: 'Not Ready' }), hAlign: 'End' }),
+                    new Column({ header: new Label({ text: 'Last Inspection' }) }),
+                    new Column({ header: new Label({ text: 'Last Odometer' }), hAlign: 'End' })
+                ],
+                items: { path: '/summary', template: new ColumnListItem({ cells: [
+                    new Text({ text: '{FORKLIFT_ID}' }),
+                    new Text({ text: '{TOTAL_INSPECTIONS}' }),
+                    new ObjectStatus({ text: '{READY_COUNT}', state: 'Success' }),
+                    new ObjectStatus({ text: '{NOT_READY_COUNT}', state: 'Error' }),
+                    new Text({ text: '{LAST_INSPECTION}' }),
+                    new Text({ text: '{LAST_ODOMETER}' })
+                ]})}
+            });
+
+            // ── Inspection Form Dialog ──
+            function passFailSelect() {
+                return new Select({ width: '100%', items: [
+                    new Item({ key: 'PASS', text: 'PASS' }),
+                    new Item({ key: 'FAIL', text: 'FAIL' })
+                ]});
+            }
+
+            function openInspectionForm() {
+                var forkId = new Input({ placeholder: 'e.g. FL-001', width: '100%' });
+                var opName = new Input({ placeholder: 'Full name', width: '100%' });
+                var opId = new Input({ placeholder: 'e.g. OP-042', width: '100%' });
+                var shift = new Select({ width: '100%', items: [
+                    new Item({ key: 'DAY', text: 'Day' }),
+                    new Item({ key: 'NIGHT', text: 'Night' })
+                ]});
+                var tires = passFailSelect();
+                var odometer = new Input({ type: 'Number', placeholder: '0', width: '100%' });
+                var body = passFailSelect();
+                var brakes = passFailSelect();
+                var hydraulics = passFailSelect();
+                var horn = passFailSelect();
+                var remarks = new TextArea({ placeholder: 'Any additional notes...', rows: 3, width: '100%' });
+
+                var dlg = new Dialog({
+                    title: 'Forklift Pre-Operation Inspection',
+                    contentWidth: '500px',
+                    content: [
+                        new MessageStrip({ text: 'Complete all checks before operating the forklift.', type: 'Information', showIcon: true }).addStyleClass('sapUiSmallMargin'),
+                        new SimpleForm({ editable: true, layout: 'ResponsiveGridLayout', columnsL: 2, columnsM: 2, content: [
+                            new Label({ text: 'Forklift ID', required: true }), forkId,
+                            new Label({ text: 'Operator Name', required: true }), opName,
+                            new Label({ text: 'Operator ID', required: true }), opId,
+                            new Label({ text: 'Shift' }), shift,
+                            new Label({ text: 'Odometer Reading', required: true }), odometer,
+                            new sap.ui.core.Title({ text: 'Inspection Checks' }),
+                            new Label({ text: '1. Tire Pressure', required: true }), tires,
+                            new Label({ text: '2. Physical Condition', required: true }), body,
+                            new Label({ text: '3. Brakes', required: true }), brakes,
+                            new Label({ text: '4. Hydraulics / Forks', required: true }), hydraulics,
+                            new Label({ text: '5. Horn & Lights', required: true }), horn,
+                            new Label({ text: 'Remarks' }), remarks
+                        ]})
+                    ],
+                    beginButton: new Button({ text: 'Submit & Confirm', type: 'Emphasized', icon: 'sap-icon://accept', press: function() {
+                        if (!forkId.getValue() || !opName.getValue() || !opId.getValue() || !odometer.getValue()) {
+                            MessageBox.error('Please fill all required fields.');
+                            return;
+                        }
+                        var payload = {
+                            FORKLIFT_ID: forkId.getValue().toUpperCase(),
+                            OPERATOR_NAME: opName.getValue(),
+                            OPERATOR_ID: opId.getValue().toUpperCase(),
+                            SHIFT: shift.getSelectedKey(),
+                            TIRE_PRESSURE: tires.getSelectedKey(),
+                            ODOMETER: parseInt(odometer.getValue()) || 0,
+                            PHYSICAL_CONDITION: body.getSelectedKey(),
+                            BRAKES: brakes.getSelectedKey(),
+                            HYDRAULICS: hydraulics.getSelectedKey(),
+                            HORN_LIGHTS: horn.getSelectedKey(),
+                            REMARKS: remarks.getValue()
+                        };
+                        fetch(API + '/Inspections', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        }).then(function(r){return r.json()}).then(function(d) {
+                            var st = d.STATUS || 'READY';
+                            if (st === 'READY') {
+                                MessageToast.show('Forklift ' + forkId.getValue() + ' is READY for operation');
+                            } else {
+                                MessageBox.warning('Forklift ' + forkId.getValue() + ' is NOT READY. One or more checks failed.');
+                            }
+                            dlg.close();
+                            loadData();
+                        }).catch(function(){ MessageBox.error('Failed to submit inspection'); });
+                    }}),
+                    endButton: new Button({ text: 'Cancel', press: function(){ dlg.close() } }),
+                    afterClose: function(){ dlg.destroy() }
+                });
+                dlg.open();
+            }
+
+            // ── App Layout ──
+            new App({ pages: [new Page({
+                title: 'ForkQA - Forklift Pre-Operation Inspection',
+                content: [new IconTabBar({ items: [
+                    new IconTabFilter({ text: 'Inspections', icon: 'sap-icon://checklist-item', content: [oInspTable] }),
+                    new IconTabFilter({ text: 'Forklift Summary', icon: 'sap-icon://shipping-status', content: [oSummaryTable] })
+                ]})]
+            })]}).setModel(oModel).placeAt('content');
+            loadData();
+        });
+    </script>
+</head>
+<body class="sapUiBody" id="content"></body>
+</html>

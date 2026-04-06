@@ -1,0 +1,11 @@
+node_modules/
+mta_archives/
+.env
+*.mtar
+default-env.json
+gen/
+logs/
+mta-op-*/
+*.exe
+Makefile_*.mta
+.ForkQA_mta_build_tmp/

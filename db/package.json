@@ -1,0 +1,10 @@
+{
+  "name": "ForkQA-db",
+  "version": "1.0.0",
+  "dependencies": { "@sap/hdi-deploy": "^4.0.0" },
+  "scripts": {
+    "build": "echo 'HDI module ready'",
+    "start": "node node_modules/@sap/hdi-deploy/deploy.js"
+  },
+  "engines": { "node": ">=18" }
+}

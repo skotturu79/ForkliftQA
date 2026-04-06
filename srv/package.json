@@ -1,0 +1,16 @@
+{
+  "name": "ForkQA-srv",
+  "version": "1.0.0",
+  "dependencies": {
+    "@sap/cds": "^8",
+    "@sap/xssec": "^4",
+    "express": "^4",
+    "hdb": "^0.19.0"
+  },
+  "engines": { "node": ">=18" },
+  "scripts": { "start": "node server.js" },
+  "cds": {
+    "requires": { "db": { "kind": "hana-cloud" } },
+    "model": ["catalog-service"]
+  }
+}

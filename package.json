@@ -1,0 +1,12 @@
+{
+  "name": "ForkQA",
+  "version": "1.0.0",
+  "description": "Forklift Pre-Operation Inspection App on BTP",
+  "scripts": {
+    "build": "mbt build",
+    "deploy": "cf deploy mta_archives/ForkQA_1.0.0.mtar"
+  },
+  "devDependencies": {
+    "mbt": "^1.2.0"
+  }
+}
